@@ -37,40 +37,38 @@ function App() {
     }
 
     return (
-        <div className="App">
-            <div className="page">
-                <div className="page__container">
-                    <Header/>
-                    <Main
-                        onEditAvatar = {handleEditAvatarClick}
-                        onEditProfile = {handleEditProfileClick}
-                        onAddPlace = {handleAddPlaceClick}
-                        onCardClick = {handleCardClick}
-                    />
-                    <PopupWithForm name='edit' title='Редактировать профиль' isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
-                        <input name="name" id="nameUser" type="text" className=" form__input form__input_type_name" placeholder="Имя" required minLength="2" maxLength="40"/>
-                        <span className="nameUser-error error"></span>
-                        <input id="about" name="about" type="text" className=" form__input form__input_type_job" placeholder="О себе" required minLength="2" maxLength="200"/>
-                        <span className="about-error error"></span>
-                    </PopupWithForm>
+        <div className="page">
+            <div className="page__container">
+                <Header/>
+                <Main
+                    onEditAvatar = {handleEditAvatarClick}
+                    onEditProfile = {handleEditProfileClick}
+                    onAddPlace = {handleAddPlaceClick}
+                    onCardClick = {handleCardClick}
+                />
+                <PopupWithForm name='edit' title='Редактировать профиль' buttonText='Сохранить' isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
+                    <input name="name" id="nameUser" type="text" className=" form__input form__input_type_name" placeholder="Имя" required minLength="2" maxLength="40"/>
+                    <span className="nameUser-error error"></span>
+                    <input id="about" name="about" type="text" className=" form__input form__input_type_job" placeholder="О себе" required minLength="2" maxLength="200"/>
+                    <span className="about-error error"></span>
+                </PopupWithForm>
 
-                    <PopupWithForm name='add' title='Новое место' isOpen = {isAddPlacePopupOpen} onClose = {closeAllPopups}>
-                        <input name="name" id="name" type="text" className=" form__input form__input_type_text" placeholder="Название" required minLength="2" maxLength="30"/>
-                        <span className="error name-error"></span>
-                        <input id="link" name="link" type="url" className=" form__input form__input_type_image" placeholder="Ссылка на картинку" required/>
-                        <span className="error link-error"></span>
-                    </PopupWithForm>
+                <PopupWithForm name='add' title='Новое место' buttonText='Создать' isOpen = {isAddPlacePopupOpen} onClose = {closeAllPopups}>
+                    <input name="name" id="name" type="text" className=" form__input form__input_type_text" placeholder="Название" required minLength="2" maxLength="30"/>
+                    <span className="error name-error"></span>
+                    <input id="link" name="link" type="url" className=" form__input form__input_type_image" placeholder="Ссылка на картинку" required/>
+                    <span className="error link-error"></span>
+                </PopupWithForm>
 
-                    <PopupWithForm name='confirm-deletion' title='Вы уверены?'/>
+                <PopupWithForm name='confirm-deletion' title='Вы уверены?'/>
 
-                    <PopupWithForm name='edit-photo' title='Обновить аватар' isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
-                        <input id="avatar" name="avatar" type="url" className=" form__input form__input_type_profile-photo" placeholder="Ссылка на фото пользователя" required/>
-                        <span className="error avatar-error"></span>
-                    </PopupWithForm>
+                <PopupWithForm name='edit-photo' title='Обновить аватар' buttonText='Сохранить' isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
+                    <input id="avatar" name="avatar" type="url" className=" form__input form__input_type_profile-photo" placeholder="Ссылка на фото пользователя" required/>
+                    <span className="error avatar-error"></span>
+                </PopupWithForm>
 
-                    <ImagePopup card = {selectedCard} onClose = {closeAllPopups}/>
-                    <Footer/>
-                </div>
+                <ImagePopup card = {selectedCard} onClose = {closeAllPopups}/>
+                <Footer/>
             </div>
         </div>
     );
