@@ -3,6 +3,7 @@ import { CurrentUserContext } from '../context/CurrentUser.Context';
 import Api from '../utils/api';
 import Header from './Header';
 import Main from './Main';
+import EditProfilePopup from './EditProfilePopup';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import Footer from './Footer';
@@ -49,6 +50,17 @@ function App() {
         setSelectedCard(null);
     }
 
+    const handleUpdateUser = (data) => {
+        Api.sendUserInfo(data)
+        .then((user) => {
+            setCurrentUser(user);
+            closeAllPopups();
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
+
     return (
         <div className="page">
             <div className="page__container">
@@ -60,12 +72,8 @@ function App() {
                         onAddPlace = {handleAddPlaceClick}
                         onCardClick = {handleCardClick}
                     />
-                    <PopupWithForm name='edit' title='Редактировать профиль' buttonText='Сохранить' isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
-                        <input name="name" id="nameUser" type="text" className=" form__input form__input_type_name" placeholder="Имя" required minLength="2" maxLength="40"/>
-                        <span className="nameUser-error error"></span>
-                        <input id="about" name="about" type="text" className=" form__input form__input_type_job" placeholder="О себе" required minLength="2" maxLength="200"/>
-                        <span className="about-error error"></span>
-                    </PopupWithForm>
+
+                    <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
 
                     <PopupWithForm name='add' title='Новое место' buttonText='Создать' isOpen = {isAddPlacePopupOpen} onClose = {closeAllPopups}>
                         <input name="name" id="name" type="text" className=" form__input form__input_type_text" placeholder="Название" required minLength="2" maxLength="30"/>
