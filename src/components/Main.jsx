@@ -1,44 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import { CurrentUserContext } from '../context/CurrentUser.Context';
+import { CurrentUserContext } from '../contexts/CurrentUser.Context';
 import Api from '../utils/api';
 import Card from './Card';
 
-const Main = ({onEditProfile, onEditAvatar, onAddPlace, onCardClick}) => {
+const Main = ({cards, onEditProfile, onEditAvatar, onAddPlace, onCardClick, onCardLike, onCardDelete}) => {
 
     const currentUser = React.useContext(CurrentUserContext);
-    const [cards, setCards] = useState([]);
-
-    useEffect(() => {
-        Api.getInitialCards()
-        .then((cards) => {
-            setCards(cards);
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-    }, []);
-
-    const handleLikeCard = (card) => {
-        const isLiked = card.likes.some(i => i._id === currentUser._id);
-
-        Api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-            setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-        });
-    }
-
-    const handleCardDelete = (card) => {
-        Api.deleteCard(card._id)
-        .then(() => {
-            const newCards = cards.filter((newCard) => {
-                return !(newCard._id === card._id);
-            });
-            setCards(newCards);
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-
-    }
 
     return (
         <main className="content">
@@ -61,7 +28,7 @@ const Main = ({onEditProfile, onEditAvatar, onAddPlace, onCardClick}) => {
                 <ul className="elements-list">
 
                     {cards.map((card) => (
-                        <Card key={card._id} currentUser={currentUser} likes={card.likes} link={card.link} name={card.name} card={card} onCardClick={onCardClick} onCardLike={handleLikeCard} onCardDelete={handleCardDelete}/>
+                        <Card key={card._id} likes={card.likes} link={card.link} name={card.name} card={card} onCardClick={onCardClick} onCardLike={onCardLike} onCardDelete={onCardDelete}/>
                     ))}
                 </ul>
             </section>

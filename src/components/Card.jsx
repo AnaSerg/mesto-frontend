@@ -1,7 +1,10 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import { CurrentUserContext } from '../contexts/CurrentUser.Context';
 
-const Card = ({card, currentUser, link, likes, name, onCardClick, onCardLike, onCardDelete}) => {
 
+const Card = ({card, link, likes, name, onCardClick, onCardLike, onCardDelete}) => {
+
+    const currentUser = useContext(CurrentUserContext);
     const isOwn = card.owner._id === currentUser._id; // проверка пользователя, который добавил карточку
     const isLiked = likes.some(i => i._id === currentUser._id); // проверка, поставлен ли лайк текущим пользователем
 
@@ -19,12 +22,12 @@ const Card = ({card, currentUser, link, likes, name, onCardClick, onCardLike, on
 
     return (
         <li className="element">
-            <img onClick={handleClick} src={link} className="element__image" alt={name}/>
-            <button onClick={handleDeleteClick} className={`element__delete-button ${!isOwn ? 'element__delete-button_hidden' : ""}`}  type="button"></button>
+            <img className="element__image" onClick={handleClick} src={link} alt={name}/>
+            <button className={`element__delete-button ${!isOwn ? 'element__delete-button_hidden' : ""}`} onClick={handleDeleteClick} type="button"></button>
             <div className="element__description">
                 <h2 className="element__text">{name}</h2>
                 <div className="element__like-area">
-                    <button onClick={handleLikeClick} className={`element__like ${isLiked ? 'element__like_active' : ""}`} type="button"></button>
+                    <button className={`element__like ${isLiked ? 'element__like_active' : ""}`} onClick={handleLikeClick} type="button"></button>
                     <p className="element__like-count">{likes.length}</p>
                 </div>
             </div>
