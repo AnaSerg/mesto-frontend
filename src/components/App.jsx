@@ -44,23 +44,23 @@ function App() {
     const handleLikeCard = (card) => {
         const isLiked = card.likes.some(i => i._id === currentUser._id);
 
-        Api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
+        Api.changeLikeCardStatus(card._id, !isLiked)
+        .then((newCard) => {
             setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-        });
-    }
-
-    const handleCardDelete = (card) => {
-        Api.deleteCard(card._id)
-        .then(() => {
-            const newCards = cards.filter((newCard) => {
-                return !(newCard._id === card._id);
-            });
-            setCards(newCards);
         })
         .catch((err) => {
             console.log(err);
         })
+    }
 
+    const handleCardDelete = (card) => {
+        Api.deleteCard(card._id)
+        .then((delCard) => {
+            setCards((state) => state.filter((c) => c._id === card._id ? !delCard : c));
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
 
     const handleEditAvatarClick = () => {
