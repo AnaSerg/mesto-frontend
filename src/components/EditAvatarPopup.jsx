@@ -3,13 +3,13 @@ import PopupWithForm from './PopupWithForm';
 import { CurrentUserContext } from '../contexts/CurrentUser.Context';
 
 const EditAvatarPopup = ({isOpen, onClose, onUpdateAvatar}) => {
-   
+
     const avatarRef = useRef();
 
     useEffect(() => {
         avatarRef.current.value = '';
     }, [isOpen])
-    
+
     function handleSubmit(e) {
         e.preventDefault();
 

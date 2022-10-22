@@ -3,7 +3,7 @@ import PopupWithForm from './PopupWithForm';
 
 
 const AddPlacePopup = ({isOpen, onClose, onAddPlace}) => {
-  
+
     const [name, setName] = useState('');
     const [link, setLink] = useState('');
 
