@@ -15,11 +15,8 @@ const Login = ({onLogin}) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         onLogin({email, password})
-        .then(resetForm)
-        .then(() => history.push('/'))
-        .catch((err) => {
-            console.log(err);
-        })
+        resetForm();
+        history.push('/');
     }
 
     return(

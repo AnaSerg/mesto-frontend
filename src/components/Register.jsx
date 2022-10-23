@@ -14,12 +14,7 @@ const Register = ({ onRegister }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     onRegister({email, password})
-    .then(resetForm)
-    .catch((err) => {
-      if (err.status === 400) {
-        console.log('Некорректно заполнено одно из полей')
-      }
-    });
+    resetForm()
   }
 
     return(

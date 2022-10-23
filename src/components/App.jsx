@@ -13,7 +13,7 @@ import InfoToolTip from './InfoToolTip';
 import Footer from './Footer';
 import Login from './Login';
 import Register from './Register';
-import * as apiAuth from './apiAuth';
+import * as apiAuth from '../utils/apiAuth';
 
 const App = () => {
 
@@ -32,32 +32,28 @@ const App = () => {
 
     const [cards, setCards] = useState([]);
 
-    const auth = (jwt) => {
-        return apiAuth.getContent(jwt)
-        .then((res) => {
-            if (res) {
-                const { email, password } = res;
-                setLoggedIn(true);
-                setUserData({
-                    email,
-                    password
+    useEffect(() => {
+            const jwt = localStorage.getItem('jwt');
+            if (jwt) {
+                apiAuth.getContent(jwt)
+                .then((res) => {
+                    if (res) {
+                        setEmail(res.data.email);
+                        setLoggedIn(true);
+                        setUserData({
+                            email: res.data.email,
+                            password: res.data.password
+                        })
+                    }
+                })
+                .catch((err) => {
+                    if (err.status === 400) {
+                        console.log('400 - токен не передан или передан не в том формате');
+                    } else if (err.status === 401) {
+                        console.log('401 - переданный токен некорректен');
+                    }
                 })
             }
-        })
-        .catch((err) => {
-            if (err.status === 400) {
-                console.log('400 - токен не передан или передан не в том формате');
-            } else if (err.status === 401) {
-                console.log('401 - переданный токен некорректен');
-            }
-        })
-    }
-
-    useEffect(() => {
-        const jwt = localStorage.getItem('jwt');
-        if (jwt) {
-            auth(jwt);
-        }
     }, []);
 
     useEffect(() => {
@@ -98,13 +94,15 @@ const App = () => {
                 setInfoToolTipOpen(true);
             };
         })
+        .catch((err) => {
+            console.log(err);
+        })
     };
 
     const onRegister = ({email, password}) => {
         return apiAuth.register(email, password)
         .then((res) => {
             if (res && !res.error) {
-                console.log('Получилось');
                 setSuccessfulReg(true);
                 setInfoToolTipOpen(true);
                 history.push('/signin');
@@ -112,6 +110,9 @@ const App = () => {
                 setSuccessfulReg(false);
                 setInfoToolTipOpen(true);
             }
+        })
+        .catch((err) => {
+            console.log(err);
         })
     };
 
