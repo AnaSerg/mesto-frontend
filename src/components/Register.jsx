@@ -14,7 +14,7 @@ const Register = ({ onRegister }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     onRegister({email, password})
-    resetForm()
+    resetForm();
   }
 
     return(

@@ -32,28 +32,32 @@ const App = () => {
 
     const [cards, setCards] = useState([]);
 
-    useEffect(() => {
-            const jwt = localStorage.getItem('jwt');
-            if (jwt) {
-                apiAuth.getContent(jwt)
-                .then((res) => {
-                    if (res) {
-                        setEmail(res.data.email);
-                        setLoggedIn(true);
-                        setUserData({
-                            email: res.data.email,
-                            password: res.data.password
-                        })
-                    }
-                })
-                .catch((err) => {
-                    if (err.status === 400) {
-                        console.log('400 - токен не передан или передан не в том формате');
-                    } else if (err.status === 401) {
-                        console.log('401 - переданный токен некорректен');
-                    }
+    const auth = (jwt) => {
+        return apiAuth.getContent(jwt)
+        .then((res) => {
+            if (res) {
+                setEmail(res.data.email);
+                setLoggedIn(true);
+                setUserData({
+                    email: res.data.email,
+                    password: res.data.password
                 })
             }
+        })
+        .catch((err) => {
+            if (err.status === 400) {
+                console.log('400 - токен не передан или передан не в том формате');
+            } else if (err.status === 401) {
+                console.log('401 - переданный токен некорректен');
+            }
+        })
+    }
+
+    useEffect(() => {
+        const jwt = localStorage.getItem('jwt');
+        if (jwt) {
+            auth(jwt);
+        }
     }, []);
 
     useEffect(() => {
@@ -89,13 +93,12 @@ const App = () => {
                 setLoggedIn(true);
                 setEmail(email);
                 localStorage.setItem('jwt', res.token);
-            } else {
-                setSuccessfulReg(false);
-                setInfoToolTipOpen(true);
-            };
+            }
         })
         .catch((err) => {
             console.log(err);
+            setSuccessfulReg(false);
+            setInfoToolTipOpen(true);
         })
     };
 
@@ -106,13 +109,12 @@ const App = () => {
                 setSuccessfulReg(true);
                 setInfoToolTipOpen(true);
                 history.push('/signin');
-            } else {
-                setSuccessfulReg(false);
-                setInfoToolTipOpen(true);
             }
         })
         .catch((err) => {
             console.log(err);
+            setSuccessfulReg(false);
+            setInfoToolTipOpen(true);
         })
     };
 

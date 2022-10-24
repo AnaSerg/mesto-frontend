@@ -1,22 +1,13 @@
-import React, { useState, useCallback }from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useState }from 'react';
 
 const Login = ({onLogin}) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const history = useHistory();
-
-    const resetForm = useCallback(() => {
-        setEmail('');
-        setPassword('');
-    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         onLogin({email, password})
-        resetForm();
-        history.push('/');
     }
 
     return(
