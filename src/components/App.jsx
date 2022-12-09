@@ -18,6 +18,7 @@ import * as apiAuth from '../utils/apiAuth';
 const App = () => {
 
     const [currentUser, setCurrentUser] = useState({});
+
     const [loggedIn, setLoggedIn] = useState(false);
     const [isSuccessReg, setSuccessfulReg] = useState(false);
     const [userData, setUserData] = useState({});
@@ -69,7 +70,7 @@ const App = () => {
     useEffect(() => {
         Api.getInitialCards()
         .then((cards) => {
-            setCards(cards);
+            setCards(cards.data);
         })
         .catch((err) => {
             console.log(err);
@@ -79,7 +80,7 @@ const App = () => {
     useEffect(() => {
         Api.getUserInfo()
         .then((currentUser) => {
-            setCurrentUser(currentUser);
+            setCurrentUser(currentUser.data);
         })
         .catch((err) => {
             console.log(err);
@@ -125,11 +126,11 @@ const App = () => {
     }
 
     const handleLikeCard = (card) => {
-        const isLiked = card.likes.some(i => i._id === currentUser._id);
+        const isLiked = card.likes.some(i => i === currentUser._id);
 
         Api.changeLikeCardStatus(card._id, !isLiked)
         .then((newCard) => {
-            setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+            setCards((state) => state.map((c) => c._id === card._id ? newCard.data : c));
         })
         .catch((err) => {
             console.log(err);
@@ -139,7 +140,7 @@ const App = () => {
     const handleCardDelete = (card) => {
         Api.deleteCard(card._id)
         .then((delCard) => {
-            setCards((state) => state.filter((c) => c._id === card._id ? !delCard : c));
+            setCards((state) => state.filter((c) => c._id === card._id ? !delCard.data : c));
         })
         .catch((err) => {
             console.log(err);
@@ -173,7 +174,7 @@ const App = () => {
     const handleUpdateUser = (data) => {
         Api.sendUserInfo(data)
         .then((user) => {
-            setCurrentUser(user);
+            setCurrentUser(user.data);
             closeAllPopups();
         })
         .catch((err) => {
@@ -184,7 +185,7 @@ const App = () => {
     const handleUpdateAvatar = (data) => {
         Api.sendAvatarInfo(data)
         .then((user) => {
-            setCurrentUser(user);
+            setCurrentUser(user.data);
             closeAllPopups();
         })
         .catch((err) => {
@@ -195,7 +196,7 @@ const App = () => {
     const handleAddPlaceSubmit = (data) => {
         Api.sendNewCard(data)
         .then((newCard) => {
-        setCards([newCard, ...cards]);
+        setCards([newCard.data, ...cards]);
         closeAllPopups();
         })
         .catch((err) => {

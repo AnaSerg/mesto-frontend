@@ -5,8 +5,8 @@ import { CurrentUserContext } from '../contexts/CurrentUser.Context';
 const Card = ({card, link, likes, name, onCardClick, onCardLike, onCardDelete}) => {
 
     const currentUser = useContext(CurrentUserContext);
-    const isOwn = card.owner._id === currentUser._id; // проверка пользователя, который добавил карточку
-    const isLiked = likes.some(i => i._id === currentUser._id); // проверка, поставлен ли лайк текущим пользователем
+    const isOwn = card.owner === currentUser._id; // проверка пользователя, который добавил карточку
+    const isLiked = likes.some(i => i === currentUser._id); // проверка, поставлен ли лайк текущим пользователем
 
     function handleClick() {
         onCardClick(card);

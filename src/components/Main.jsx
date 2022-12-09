@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import { CurrentUserContext } from '../contexts/CurrentUser.Context';
-import Api from '../utils/api';
 import Card from './Card';
 
 const Main = ({cards, onEditProfile, onEditAvatar, onAddPlace, onCardClick, onCardLike, onCardDelete}) => {

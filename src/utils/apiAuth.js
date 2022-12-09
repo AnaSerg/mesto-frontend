@@ -1,10 +1,10 @@
-export const BASE_URL = 'https://auth.nomoreparties.co';
+export const BASE_URL = 'http://localhost:3001';
 
 const handleResponse = (res) => {
   if (res.ok) {
     return res.json();
   } else {
-    return Promise.reject(`Ошибка: ${res.status}`);
+    return Promise.reject(`произошла ошибка`);
   }
 }
 
@@ -13,7 +13,7 @@ export const register = (email, password) => {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({email, password})
   })
@@ -25,7 +25,7 @@ export const authorize = (email, password) => {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({email, password})
   })
@@ -37,9 +37,9 @@ export const getContent = (token) => {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    }
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
   })
   .then((response) => handleResponse(response))
 }
