@@ -120,8 +120,10 @@ const App = () => {
     };
 
     const onSignOut = () => {
-        localStorage.removeItem('jwt');
+        setUserData({});
+        setCurrentUser({});
         setLoggedIn(false);
+        localStorage.removeItem('jwt');
         history.push('/signin');
     }
 
