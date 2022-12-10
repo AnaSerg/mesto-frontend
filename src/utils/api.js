@@ -111,7 +111,7 @@ class Api {
 }
 
 export default new Api ({
-    baseUrl: 'http://api.anaserg.nomoredomains.club',
+    baseUrl: 'https://api.anaserg.nomoredomains.club',
     headers: {
         authorization: `Bearer ${localStorage.getItem('jwt')}`,
         'Content-Type': 'application/json'

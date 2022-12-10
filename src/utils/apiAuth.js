@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://api.anaserg.nomoredomains.club';
+export const BASE_URL = 'https://api.anaserg.nomoredomains.club';
 
 const handleResponse = (res) => {
   if (res.ok) {
