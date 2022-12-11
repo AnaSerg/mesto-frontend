@@ -62,30 +62,16 @@ const App = () => {
     }, []);
 
     useEffect(() => {
-        if (loggedIn) {
+        if (loggedIn)  {
+          Promise.all([Api.getInitialCards(), Api.getUserInfo()])
+          .then(([cards, user]) => {
+            setCards(cards.data)
+            setCurrentUser(user.data)
             history.push('/');
-        };
-    }, [loggedIn]);
-
-    useEffect(() => {
-        Api.getInitialCards()
-        .then((cards) => {
-            setCards(cards.data);
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-    }, []);
-
-    useEffect(() => {
-        Api.getUserInfo()
-        .then((currentUser) => {
-            setCurrentUser(currentUser.data);
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-    }, []);
+          })
+          .catch((err) => console.log(err))
+        }
+      }, [loggedIn])
 
     const onLogin = ({email, password}) => {
         return apiAuth.authorize(email, password)
@@ -120,8 +106,6 @@ const App = () => {
     };
 
     const onSignOut = () => {
-        setUserData({});
-        setCurrentUser({});
         setLoggedIn(false);
         localStorage.removeItem('jwt');
         history.push('/signin');

@@ -89,7 +89,10 @@ class Api {
         } else {
             return fetch(`${this._baseUrl}/cards/${id}/likes`, {
                 method: 'DELETE',
-                headers: this._headers,
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                    'Content-Type': 'application/json'
+                },
             })
             .then(this._handleResponse);
         }
